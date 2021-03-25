@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { searchPhotos } from '../../reducer/api';
 import Navbar from '../Navbar';
 import CardList from './CardList';
 
 
 export default function Home() {
+    const [Data, setData] = useState([]);
+
     useEffect(() => {
         searchPhotos("dog")
             .then(r => {
-                console.log("r: ", r);
+                // console.log("r: ", r);
+                setData(r.data.results)
             })
             .catch(err => {
                 console.log("home err: ", err);
@@ -18,7 +21,7 @@ export default function Home() {
     return (
         <div className="home-page">
             <Navbar />
-            <CardList />
+            <CardList list={Data} />
         </div>
     );
 }
