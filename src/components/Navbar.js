@@ -1,24 +1,14 @@
 import { useState } from 'react';
-
 import { fade, makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button'
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import { ArrowLeft } from '@material-ui/icons';
+
+import { fetchPhotos } from '../reducer/photoReducer';
 
 const useStyles = makeStyles((theme) => ({
     appbar: {
@@ -77,13 +67,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
     const [searchValue, setSearchValue] = useState('')
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log("Sstring: ", searchValue)
+        // console.log("searchValue: ", searchValue)
+        dispatch(fetchPhotos({ type: "search", string: searchValue }))
     }
     const handleInput = (e) => {
-        setSearchValue(e.target.value)
+        setSearchValue(e.target.value);
     }
 
     return (
@@ -91,7 +84,6 @@ export default function Navbar() {
             <AppBar position="fixed" className={classes.appbar}>
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
-                        {/* <Paper className={classes.paper}>xs=12 sm=6</Paper> */}
                         <Typography component="h1" className={classes.title}>
                             Image Gallery
                         </Typography>
